@@ -126,11 +126,6 @@ export function HeroSection() {
 
           <div className="w-full relative z-10">
             <FloatingShield />
-            <div className="text-center mt-2">
-              <span className="text-[11px] font-mono tracking-wider uppercase text-gray-500 bg-surface-200/80 px-3 py-1 rounded-full border border-white/5">
-                3D Cryptographic Core • Drag to Inspect
-              </span>
-            </div>
           </div>
         </motion.div>
       </div>
