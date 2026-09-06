@@ -1,0 +1,84 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 7, 10, 17;
+  --background-end-rgb: 10, 14, 24;
+}
+
+@layer base {
+  body {
+    color: rgb(var(--foreground-rgb));
+    background: #070A11;
+    overflow-x: hidden;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #070A11;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1E2638;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #FF7300;
+}
+
+/* Glassmorphism utility */
+.glass-panel {
+  background: rgba(15, 22, 36, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-panel-interactive {
+  background: rgba(15, 22, 36, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-panel-interactive:hover {
+  border-color: rgba(255, 115, 0, 0.35);
+  box-shadow: 0 10px 30px -10px rgba(255, 115, 0, 0.2);
+}
+
+/* Glow effects */
+.glow-orange {
+  box-shadow: 0 0 35px -5px rgba(255, 115, 0, 0.35);
+}
+
+.glow-purple {
+  box-shadow: 0 0 35px -5px rgba(92, 69, 253, 0.4);
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, #FFFFFF 20%, #FF9838 70%, #FF7300 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-purple {
+  background: linear-gradient(135deg, #FFFFFF 20%, #806EFF 70%, #5C45FD 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-brand {
+  background: linear-gradient(135deg, #FF9838 0%, #FF7300 45%, #806EFF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
