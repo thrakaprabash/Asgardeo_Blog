@@ -3,10 +3,14 @@ import { Navbar } from "@/components/ui/Navbar";
 import { HeroSection } from "@/components/sections/HeroSection";
 import { ProblemSection } from "@/components/sections/ProblemSection";
 import { SolutionSection } from "@/components/sections/SolutionSection";
+import { CodeDiffSection } from "@/components/sections/CodeDiffSection";
 import { ArchitectureSection } from "@/components/sections/ArchitectureSection";
 import { DeveloperImpactSection } from "@/components/sections/DeveloperImpactSection";
 import { AuthSimulator } from "@/components/sections/AuthSimulator";
+import { FAQSection } from "@/components/sections/FAQSection";
+import { ShareBar } from "@/components/ui/ShareBar";
 import { TakeawaySection } from "@/components/sections/TakeawaySection";
+import { BackToTop } from "@/components/ui/BackToTop";
 
 const BackgroundCanvas = dynamic(
   () => import("@/components/three/BackgroundCanvas"),
@@ -19,7 +23,7 @@ export default function Home() {
       {/* 3D Three.js Ambient Particle Space */}
       <BackgroundCanvas />
 
-      {/* Navigation Header */}
+      {/* Navigation Header with ScrollSpy */}
       <Navbar />
 
       {/* Blog Post Sections */}
@@ -27,11 +31,17 @@ export default function Home() {
         <HeroSection />
         <ProblemSection />
         <SolutionSection />
+        <CodeDiffSection />
         <ArchitectureSection />
         <DeveloperImpactSection />
         <AuthSimulator />
+        <FAQSection />
+        <ShareBar />
         <TakeawaySection />
       </div>
+
+      {/* Floating Back to Top with Scroll Progress Ring */}
+      <BackToTop />
     </main>
   );
 }

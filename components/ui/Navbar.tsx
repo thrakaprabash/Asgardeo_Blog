@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { motion, useScroll, useSpring } from "framer-motion";
-import { Shield, Sparkles, ExternalLink, Menu, X } from "lucide-react";
+import { Shield, ExternalLink, Menu, X } from "lucide-react";
 
 export function Navbar() {
   const { scrollYProgress } = useScroll();
@@ -14,22 +14,45 @@ export function Navbar() {
 
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState<string>("");
+
+  const navLinks = [
+    { name: "The Problem", href: "#problem", id: "problem" },
+    { name: "The Solution", href: "#solution", id: "solution" },
+    { name: "Code Delta", href: "#diff", id: "diff" },
+    { name: "Architecture", href: "#architecture", id: "architecture" },
+    { name: "Developer SDKs", href: "#sdks", id: "sdks" },
+    { name: "FAQ", href: "#faq", id: "faq" },
+    { name: "Takeaway", href: "#takeaway", id: "takeaway" },
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 40);
+
+      // ScrollSpy logic: detect which section is currently centered/active
+      const sectionIds = navLinks.map((l) => l.id);
+      const scrollPosition = window.scrollY + 200;
+
+      for (let i = sectionIds.length - 1; i >= 0; i--) {
+        const section = document.getElementById(sectionIds[i]);
+        if (section) {
+          const top = section.offsetTop;
+          if (scrollPosition >= top) {
+            setActiveSection(sectionIds[i]);
+            return;
+          }
+        }
+      }
+      if (window.scrollY < 200) {
+        setActiveSection("");
+      }
     };
-    window.addEventListener("scroll", handleScroll);
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  const navLinks = [
-    { name: "The Problem", href: "#problem" },
-    { name: "The Solution", href: "#solution" },
-    { name: "Architecture", href: "#architecture" },
-    { name: "Developer SDKs", href: "#sdks" },
-    { name: "Takeaway", href: "#takeaway" },
-  ];
 
   return (
     <>
@@ -42,7 +65,7 @@ export function Navbar() {
       <header
         className={`fixed top-1 left-0 right-0 z-40 transition-all duration-300 ${
           isScrolled
-            ? "bg-surface-300/80 backdrop-blur-md border-b border-white/10 py-3 shadow-lg"
+            ? "bg-surface-300/85 backdrop-blur-md border-b border-white/10 py-3 shadow-lg"
             : "bg-transparent py-5"
         }`}
       >
@@ -69,17 +92,31 @@ export function Navbar() {
             </div>
           </a>
 
-          {/* Desktop Navigation Links */}
-          <nav className="hidden md:flex items-center gap-7">
-            {navLinks.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                className="text-sm font-medium text-gray-300 hover:text-white transition-colors relative py-1 hover:after:w-full after:w-0 after:h-0.5 after:bg-asgardeo-orange after:absolute after:bottom-0 after:left-0 after:transition-all after:duration-300"
-              >
-                {link.name}
-              </a>
-            ))}
+          {/* Desktop Navigation Links with ScrollSpy */}
+          <nav className="hidden md:flex items-center gap-2">
+            {navLinks.map((link) => {
+              const isActive = activeSection === link.id;
+              return (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  className={`relative px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-colors duration-200 ${
+                    isActive
+                      ? "text-white"
+                      : "text-gray-400 hover:text-gray-200 hover:bg-white/5"
+                  }`}
+                >
+                  {isActive && (
+                    <motion.div
+                      layoutId="activeNavPill"
+                      className="absolute inset-0 rounded-lg bg-gradient-to-r from-asgardeo-orange/20 to-asgardeo-purple/20 border border-asgardeo-orange/40 shadow-sm"
+                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                    />
+                  )}
+                  <span className="relative z-10">{link.name}</span>
+                </a>
+              );
+            })}
           </nav>
 
           {/* CTA & Actions */}
@@ -111,27 +148,36 @@ export function Navbar() {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="md:hidden px-4 pt-3 pb-6 bg-surface-200/95 backdrop-blur-xl border-b border-white/10 space-y-3"
+            className="md:hidden px-4 pt-3 pb-6 bg-surface-200/95 backdrop-blur-xl border-b border-white/10 space-y-2"
           >
-            {navLinks.map((link) => (
+            {navLinks.map((link) => {
+              const isActive = activeSection === link.id;
+              return (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`block px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                    isActive
+                      ? "text-asgardeo-orange bg-asgardeo-orange/10 font-bold"
+                      : "text-gray-200 hover:text-asgardeo-orange"
+                  }`}
+                >
+                  {link.name}
+                </a>
+              );
+            })}
+            <div className="pt-2">
               <a
-                key={link.name}
-                href={link.href}
-                onClick={() => setMobileMenuOpen(false)}
-                className="block text-sm font-medium text-gray-200 hover:text-asgardeo-orange py-2"
+                href="https://wso2.com/asgardeo/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl text-xs font-semibold text-white bg-asgardeo-orange shadow-asgardeo-glow"
               >
-                {link.name}
+                <span>Explore Asgardeo</span>
+                <ExternalLink className="w-3.5 h-3.5" />
               </a>
-            ))}
-            <a
-              href="https://wso2.com/asgardeo/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl text-xs font-semibold text-white bg-asgardeo-orange"
-            >
-              <span>Explore Asgardeo</span>
-              <ExternalLink className="w-3.5 h-3.5" />
-            </a>
+            </div>
           </motion.div>
         )}
       </header>

@@ -18,6 +18,11 @@ export const metadata: Metadata = {
     "Passkeys",
   ],
   authors: [{ name: "Tharaka Prabash Lakpriya" }],
+  icons: {
+    icon: "/icon.svg",
+    shortcut: "/icon.svg",
+    apple: "/icon.svg",
+  },
   openGraph: {
     title: "Stop Building Your Own Login Page: How Asgardeo Solves the Authentication Headache",
     description:
@@ -34,6 +39,8 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark scroll-smooth">
       <head>
+        <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+        <link rel="alternate icon" href="/icon.svg" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
